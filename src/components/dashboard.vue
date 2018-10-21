@@ -27,6 +27,12 @@
         <h3>Fall Detected!</h3>
       </div>
     </div>
+    <br>
+    <div v-if="collide">
+      <div class="jumbotron text-center">
+        <h3>Collision Imminent!</h3>
+      </div>
+    </div>
   </div>
 
   <hr class="featurette-divider">
@@ -82,22 +88,26 @@ export default {
           this.wd2 = this.split[2]
           this.wd3 = this.split[3]
           this.fall = this.split[4]
+          if (this.collide == 'Ok') {
+            this.collide = false
+          } else {
+            this.collide = true
+          }
           if (this.fall == 'falling') {
             this.fall = true
-          }
-          else {
+          } else {
             this.fall = false
           }
           setTimeout(() => {
             this.getFeedin()
-          }, 10000)
+          }, 2000)
         });
     }
   },
   mounted() {
     this.getFeedin()
     this.econtact = this.user.econtact
-    axios.post('https://io.adafruit.com/api/v2/Stepify/feeds/econtact/data',{
+    axios.post('https://io.adafruit.com/api/v2/Stepify/feeds/econtact/data', {
       "value": this.user.econtact
     }, {
       headers: {
